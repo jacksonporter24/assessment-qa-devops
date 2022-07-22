@@ -6,16 +6,20 @@ const {shuffleArray} = require('./utils')
 
 app.use(express.json())
 
+// include and initialize the rollbar library with your access token
 var Rollbar = require('rollbar')
-const { setDefaultResultOrder } = require('dns')
 var rollbar = new Rollbar({
-    accessToken: '',
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-
+  accessToken: 'affae4a276e445c18d06517a62d3d537',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
 })
 
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+
 app.get('/', (req, res) => {
+    //HERE IS FIRST ROLLBAR EVENT
+    rollbar.info("Someone loaded up your HTML.")
     res.sendFile(path.join(__dirname, '../assessment-qa-devops/public/index.html'))
 })
 
@@ -28,6 +32,8 @@ app.get('/css', (req, res) => {
 })
 
 app.get('/api/robots', (req, res) => {
+    //HERE IS SECOND ROLLBAR EVENT
+    rollbar.log("Here are all the robots.")
     try {
         res.status(200).send(botsArr)
     } catch (error) {
@@ -37,6 +43,8 @@ app.get('/api/robots', (req, res) => {
 })
 
 app.get('/api/robots/five', (req, res) => {
+    //HERE IS THIRD ROLLBAR EVENT
+    rollbar.warning("Make sure 5 robots appear.")
     try {
         let shuffled = shuffleArray(bots)
         let choices = shuffled.slice(0, 5)
@@ -49,6 +57,8 @@ app.get('/api/robots/five', (req, res) => {
 })
 
 app.post('/api/duel', (req, res) => {
+    //HERE IS FOURTH ROLLBAR EVENT
+    rollbar.critical("This is a CRITICAL error. Robots are gaining consciousness.")
     try {
         // getting the duos from the front end
         let {compDuo, playerDuo} = req.body

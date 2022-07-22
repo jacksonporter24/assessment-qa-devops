@@ -34,9 +34,9 @@ app.get('/css', (req, res) => {
 })
 
 app.get('/api/robots', (req, res) => {
-    //HERE IS SECOND ROLLBAR EVENT
-    rollbar.log("Here are all the robots.")
     try {
+        //HERE IS SECOND ROLLBAR EVENT
+        rollbar.log("Here are all the robots.")
         res.status(200).send(botsArr)
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
@@ -45,9 +45,9 @@ app.get('/api/robots', (req, res) => {
 })
 
 app.get('/api/robots/five', (req, res) => {
-    //HERE IS THIRD ROLLBAR EVENT
-    rollbar.warning("Make sure 5 robots appear.")
     try {
+        //HERE IS THIRD ROLLBAR EVENT
+    rollbar.warning("Make sure 5 robots appear.")
         let shuffled = shuffleArray(bots)
         let choices = shuffled.slice(0, 5)
         let compDuo = shuffled.slice(6, 8)
@@ -59,9 +59,9 @@ app.get('/api/robots/five', (req, res) => {
 })
 
 app.post('/api/duel', (req, res) => {
-    //HERE IS FOURTH ROLLBAR EVENT
-    rollbar.critical("This is a CRITICAL error. Robots are gaining consciousness.")
     try {
+         //HERE IS FOURTH ROLLBAR EVENT
+        rollbar.critical("This is a CRITICAL error. Robots are gaining consciousness.")
         // getting the duos from the front end
         let {compDuo, playerDuo} = req.body
 
@@ -81,6 +81,8 @@ app.post('/api/duel', (req, res) => {
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
             res.status(200).send('You lost!')
+             //HERE IS ONE ROLLBAR EVENT
+            rollbar.critical("This is a CRITICAL error. Robots are gaining consciousness.")
         } else {
             playerRecord.losses++
             res.status(200).send('You won!')
